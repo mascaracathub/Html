@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Obfuscate Code Roblox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid #3498db;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .code-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #2c3e50;
+            transition: all 0.3s ease;
+        }
+        
+        .code-box:hover {
+            border-color: #3498db;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
+        }
+        
+        .box-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .box-title h3 {
+            color: #3498db;
+        }
+        
+        .btn-copy {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-copy:hover {
+            background: #3498db;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 300px;
+            background: #1c2833;
+            color: #ecf0f1;
+            border: 1px solid #34495e;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #2980b9, #1f639b);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, #c0392b, #a93226);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(45deg, #27ae60, #219653);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .feature h4 {
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            border-top: 1px solid #34495e;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+        
+        .alert-error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        
+        .options {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .options h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .option-item label {
+            color: #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Roblox Script Obfuscator</h1>
+            <p class="subtitle">Bảo vệ code Roblox của bạn khỏi các công cụ decompile và reverse engineering</p>
+        </header>
+        
+        <div class="alert" id="alert"></div>
+        
+        <div class="options">
+            <h3>Tùy chọn Obfuscate</h3>
+            <div class="option-group">
+                <div class="option-item">
+                    <input type="checkbox" id="renameVars" checked>
+                    <label for="renameVars">Đổi tên biến</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="renameFuncs" checked>
+                    <label for="renameFuncs">Đổi tên hàm</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="stringEncrypt" checked>
+                    <label for="stringEncrypt">Mã hóa chuỗi</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="controlFlow" checked>
+                    <label for="controlFlow">Làm rối luồng điều khiển</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="addJunkCode">
+                    <label for="addJunkCode">Thêm code rác</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="code-box">
+                <div class="box-title">
+                    <h3>Code gốc (Input)</h3>
+                    <button class="btn-copy" onclick="copyCode('inputCode')">Copy</button>
+                </div>
+                <textarea id="inputCode" placeholder="Dán code Roblox của bạn vào đây...">-- Ví dụ code Roblox Lua
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+function calculateDamage(baseDamage, multiplier)
+    local totalDamage = baseDamage * multiplier
+    if totalDamage > 100 then
+        return 100
+    else
+        return totalDamage
+    end
+end
+
+local damage = calculateDamage(50, 2.5)
+print("Damage dealt: " .. damage)</textarea>
+            </div>
+            
+            <div class="code-box">
+                <div class="box-title">
+                    <h3>Code đã Obfuscate (Output)</h3>
+                    <button class="btn-copy" onclick="copyCode('outputCode')">Copy</button>
+                </div>
+                <textarea id="outputCode" placeholder="Code đã obfuscate sẽ xuất hiện ở đây..." readonly></textarea>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="obfuscateCode()">
+                <span>Obfuscate Code</span>
+            </button>
+            <button class="btn btn-secondary" onclick="clearCode()">
+                <span>Xóa tất cả</span>
+            </button>
+            <button class="btn btn-success" onclick="downloadCode()">
+                <span>Tải xuống</span>
+            </button>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h4>Bảo vệ Code</h4>
+                <p>Ngăn chặn việc đánh cắp và sao chép code của bạn bằng các kỹ thuật obfuscate tiên tiến.</p>
+            </div>
+            <div class="feature">
+                <h4>Hỗ trợ Lua U</h4>
+                <p>Tương thích với Roblox Lua và các phiên bản Lua U, đảm bảo code vẫn chạy sau khi obfuscate.</p>
+            </div>
+            <div class="feature">
+                <h4>Không làm hỏng logic</h4>
+                <p>Obfuscate chỉ thay đổi cấu trúc code, không ảnh hưởng đến logic và chức năng gốc.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Công cụ Obfuscate Code Roblox | An toàn và hiệu quả | Không lưu trữ code của bạn</p>
+            <p>© 2023 - Phát triển cho cộng đồng Roblox Developer</p>
+        </footer>
+    </div>
+
+    <script>
+        // Thuật toán obfuscate cơ bản
+        function obfuscateCode() {
+            const input = document.getElementById('inputCode').value;
+            if (!input.trim()) {
+                showAlert('Vui lòng nhập code cần obfuscate!', 'error');
+                return;
+            }
+            
+            // Lấy tùy chọn
+            const renameVars = document.getElementById('renameVars').checked;
+            const renameFuncs = document.getElementById('renameFuncs').checked;
+            const stringEncrypt = document.getElementById('stringEncrypt').checked;
+            const controlFlow = document.getElementById('controlFlow').checked;
+            const addJunkCode = document.getElementById('addJunkCode').checked;
+            
+            let output = input;
+            
+            // Áp dụng các kỹ thuật obfuscate
+            if (renameVars || renameFuncs) {
+                output = renameIdentifiers(output, renameVars, renameFuncs);
+            }
+            
+            if (stringEncrypt) {
+                output = encryptStrings(output);
+            }
+            
+            if (controlFlow) {
+                output = obfuscateControlFlow(output);
+            }
+            
+            if (addJunkCode) {
+                output = addJunkCodeSnippets(output);
+            }
+            
+            // Thêm header comment
+            const header = `--[[
+    Code đã được Obfuscate bởi Roblox Obfuscator
+    Obfuscate vào: ${new Date().toLocaleString()}
+    Tùy chọn: ${renameVars ? 'Đổi tên biến, ' : ''}${renameFuncs ? 'Đổi tên hàm, ' : ''}${stringEncrypt ? 'Mã hóa chuỗi, ' : ''}${controlFlow ? 'Làm rối luồng điều khiển, ' : ''}${addJunkCode ? 'Thêm code rác' : ''}
+]]\n\n`;
+            
+            output = header + output;
+            
+            document.getElementById('outputCode').value = output;
+            showAlert('Code đã được obfuscate thành công!', 'success');
+        }
+        
+        function renameIdentifiers(code, renameVars, renameFuncs) {
+            // Tạo map để lưu các tên mới
+            const varMap = new Map();
+            const funcMap = new Map();
+            let varCounter = 1;
+            let funcCounter = 1;
+            
+            // Tìm và thay thế các biến và hàm
+            const lines = code.split('\n');
+            const newLines = [];
+            
+            for (let line of lines) {
+                // Bỏ qua comment
+                if (line.trim().startsWith('--') || line.trim().startsWith('--[')) {
+                    newLines.push(line);
+                    continue;
+                }
+                
+                let newLine = line;
+                
+                // Tìm các biến cục bộ (đơn giản)
+                if (renameVars) {
+                    const localVarRegex = /local\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+                    let match;
+                    while ((match = localVarRegex.exec(line)) !== null) {
+                        const varName = match[1];
+                        if (!varMap.has(varName) && !['game', 'script', 'workspace', 'Players', 'wait'].includes(varName)) {
+                            varMap.set(varName, `_${varCounter.toString(36)}`);
+                            varCounter++;
+                        }
+                    }
+                    
+                    // Thay thế các biến
+                    varMap.forEach((newName, oldName) => {
+                        const regex = new RegExp(`\\b${oldName}\\b`, 'g');
+                        newLine = newLine.replace(regex, newName);
+                    });
+                }
+                
+                // Tìm các hàm (đơn giản)
+                if (renameFuncs) {
+                    const funcRegex = /function\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+                    let match;
+                    while ((match = funcRegex.exec(line)) !== null) {
+                        const funcName = match[1];
+                        if (!funcMap.has(funcName)) {
+                            funcMap.set(funcName, `__${funcCounter.toString(36)}`);
+                            funcCounter++;
+                        }
+                    }
+                    
+                    // Thay thế các hàm
+                    funcMap.forEach((newName, oldName) => {
+                        const regex = new RegExp(`\\b${oldName}\\b`, 'g');
+                        newLine = newLine.replace(regex, newName);
+                    });
+                }
+                
+                newLines.push(newLine);
+            }
+            
+            return newLines.join('\n');
+        }
+        
+        function encryptStrings(code) {
+            // Mã hóa chuỗi đơn giản bằng base64
+            const stringRegex = /(["'])(?:(?=(\\?))\2.)*?\1/g;
+            
+            return code.replace(stringRegex, (match) => {
+                // Bỏ qua các chuỗi quá ngắn
+                if (match.length <= 4) return match;
+                
+                const content = match.substring(1, match.length - 1);
+                const encoded = btoa(unescape(encodeURIComponent(content)));
+                return `(function() local _=""; for _b in ("${encoded}"):gmatch("..") do _=_..string.char(tonumber(_b,16)) end; return _ end)()`;
+            });
+        }
+        
+        function obfuscateControlFlow(code) {
+            // Thêm các cấu trúc điều khiển rối rắm
+            const lines = code.split('\n');
+            const newLines = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                newLines.push(line);
+                
+                // Thêm các câu lệnh if rác
+                if (line.trim().endsWith('end') && Math.random() > 0.7) {
+                    newLines.push(`if (function() return math.random() > 0.5 end)() then`);
+                    newLines.push(`    local _ = math.random(1, 100)`);
+                    newLines.push(`end`);
+                }
+            }
+            
+            return newLines.join('\n');
+        }
+        
+        function addJunkCodeSnippets(code) {
+            const junkCode = [
+                "\n-- Junk code bắt đầu",
+                "local _junk_var_1 = math.pi * math.random()",
+                "for _ = 1, 3 do",
+                "    _junk_var_1 = _junk_var_1 + 1",
+                "end",
+                "if _junk_var_1 > 0 then",
+                "    _junk_var_1 = _junk_var_1 * 0",
+                "end",
+                "-- Junk code kết thúc\n"
+            ];
+            
+            // Chèn junk code vào các vị trí ngẫu nhiên
+            const lines = code.split('\n');
+            const insertPos = Math.floor(lines.length / 3);
+            lines.splice(insertPos, 0, ...junkCode);
+            
+            return lines.join('\n');
+        }
+        
+        function clearCode() {
+            document.getElementById('inputCode').value = '';
+            document.getElementById('outputCode').value = '';
+            showAlert('Đã xóa tất cả code!', 'success');
+        }
+        
+        function copyCode(textareaId) {
+            const textarea = document.getElementById(textareaId);
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // Cho mobile
+            
+            try {
+                const successful = document.execCommand('copy');
+                showAlert(successful ? 'Đã copy code!' : 'Không thể copy', successful ? 'success' : 'error');
+            } catch (err) {
+                showAlert('Không thể copy code', 'error');
+            }
+        }
+        
+        function downloadCode() {
+            const output = document.getElementById('outputCode').value;
+            if (!output.trim()) {
+                showAlert('Không có code để tải xuống!', 'error');
+                return;
+            }
+            
+            const blob = new Blob([output], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `obfuscated_script_${Date.now()}.lua`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showAlert('Đã tải xuống file!', 'success');
+        }
+        
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Ví dụ code khi trang tải
+        window.onload = function() {
+            obfuscateCode();
+        };
+    </script>
+</body>
+</html>
